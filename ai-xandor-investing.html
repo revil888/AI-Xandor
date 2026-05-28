@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Xandor — Инвестиционное предложение</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #f3f4f8;
+      --card: #ffffff;
+      --accent: #2563eb;
+      --accent-soft: rgba(37, 99, 235, 0.08);
+      --text: #0f172a;
+      --muted: #6b7280;
+      --danger: #dc2626;
+      --success: #16a34a;
+      --border: #e2e8f0;
+      --shadow: 0 14px 40px rgba(15, 23, 42, 0.12);
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #e5edff 0, #f3f4f8 40%, #eef2ff 100%);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      padding: 16px;
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 0 auto 40px auto;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--accent-soft);
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.25);
+    }
+
+    h1 {
+      font-size: clamp(26px, 4vw, 34px);
+      margin-top: 16px;
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 560px;
+    }
+
+    .hero {
+      margin-top: 16px;
+      margin-bottom: 24px;
+      padding: 18px 16px;
+      border-radius: var(--radius-lg);
+      background: radial-gradient(circle at top left, rgba(59,130,246,0.14), transparent 55%),
+                  radial-gradient(circle at top right, rgba(52,211,153,0.18), transparent 60%),
+                  #ffffff;
+      border: 1px solid #dbe3f0;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    @media (min-width: 720px) {
+      .hero-grid {
+        flex-direction: row;
+        align-items: stretch;
+      }
+    }
+
+    .hero-main {
+      flex: 1.6;
+    }
+
+    .hero-kpi {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      font-size: 11px;
+    }
+
+    .kpi-card {
+      padding: 10px 10px;
+      border-radius: var(--radius-md);
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+    }
+
+    .kpi-title {
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .kpi-value {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .kpi-trend {
+      margin-top: 4px;
+      font-size: 11px;
+    }
+
+    .kpi-trend.positive {
+      color: var(--success);
+    }
+
+    .kpi-trend.negative {
+      color: var(--danger);
+    }
+
+    .section {
+      margin-top: 26px;
+      padding: 18px 16px;
+      border-radius: var(--radius-lg);
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 28px rgba(148, 163, 184, 0.25);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #111827;
+    }
+
+    .section-tag {
+      font-size: 11px;
+      color: var(--muted);
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #f9fafb;
+    }
+
+    .section p {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    ul {
+      list-style: none;
+      margin-top: 4px;
+    }
+
+    ul li {
+      position: relative;
+      padding-left: 16px;
+      margin-bottom: 4px;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    ul li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+    }
+
+    .columns {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    @media (min-width: 720px) {
+      .columns {
+        flex-direction: row;
+      }
+      .col {
+        flex: 1;
+      }
+    }
+
+    .col {
+      padding: 10px 0;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .chip {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--accent-soft);
+      background: #eef2ff;
+      color: var(--muted);
+    }
+
+    .pricing-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    @media (min-width: 720px) {
+      .pricing-grid {
+        flex-direction: row;
+      }
+    }
+
+    .tariff {
+      flex: 1;
+      border-radius: var(--radius-md);
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      padding: 12px 10px;
+    }
+
+    .tariff-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4px;
+    }
+
+    .tariff-name {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .tariff-price {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .tariff-note {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .tariff ul li {
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+
+    .target-grid {
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    @media (min-width: 540px) {
+      .target-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .tag-card {
+      padding: 10px;
+      border-radius: var(--radius-md);
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+    }
+
+    .tag-title {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 2px;
+      color: #111827;
+    }
+
+    .tag-desc {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .note {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .highlight {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .divider {
+      height: 1px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.8), transparent);
+      margin: 18px 0 10px 0;
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: left;
+    }
+
+    .footer strong {
+      color: #111827;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- HERO -->
+    <div class="badge">
+      <span class="badge-dot"></span>
+      Инвестиционное предложение · AI Xandor
+    </div>
+
+    <h1>AI Xandor — российская AI-платформа для финансов и Web3</h1>
+    <p class="subtitle">
+      Финансовый искусственный интеллект для банков, бизнеса, финтеха и DeFi: единая платформа для аналитики, управления рисками и автоматизации решений в фиатном и Web3-сегменте.
+    </p>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-main">
+          <p style="font-size:14px; color:#1f2937; margin-bottom:6px;">
+            <span class="highlight">Цель AI Xandor:</span> создать отечественную AI-платформу уровня enterprise для финансового сектора России и глобального Web3, монетизируемую по подписочной модели с выходом на госзаказы и крупнейшие грантовые программы.
+          </p>
+          <p style="font-size:13px; color:#6b7280;">
+            Мировой рынок искусственного интеллекта демонстрирует устойчивый рост, а сегмент AI в финансовых услугах и Web3 становится одним из ключевых драйверов цифровой трансформации. 
+            Финансовые организации активно внедряют AI для повышения эффективности, управления рисками и повышения прозрачности, что формирует устойчивый спрос на специализированные платформы и интеллектуальные ассистенты.
+          </p>
+        </div>
+
+        <div class="hero-kpi">
+          <div class="kpi-card">
+            <div class="kpi-title">AI в финансовых услугах</div>
+            <div class="kpi-value">Быстрый рост</div>
+            <div class="kpi-trend positive">
+              Двузначные темпы роста рынка AI‑решений для банков и финтеха.
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Глобальный AI-рынок</div>
+            <div class="kpi-value">Сотни млрд USD</div>
+            <div class="kpi-trend positive">
+              Значительный рост инвестиционной активности и внедрений AI.
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">AI-ассистенты</div>
+            <div class="kpi-value">Двузначный CAGR</div>
+            <div class="kpi-trend positive">
+              Растущий спрос на интеллектуальных ассистентов в B2B и B2G.
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Web3 + AI</div>
+            <div class="kpi-value">Новый драйвер</div>
+            <div class="kpi-trend positive">
+              AI становится «мозгом» Web3‑экосистем и DeFi‑инфраструктуры.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ВИЗИЯ И ПОЗИЦИОНИРОВАНИЕ -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-title">Видение AI Xandor</div>
+        <div class="section-tag">Стратегическое позиционирование</div>
+      </div>
+      <p>
+        AI Xandor — это <span class="highlight">финансовый искусственный интеллект нового поколения</span>, объединяющий традиционные финансы и DeFi/Web3 в единой AI-платформе для банков, бизнеса, финтеха и госструктур.
+      </p>
+      <p>
+        Мы создаём инфраструктуру, где <span class="highlight">AI выступает «мозгом» над фиатной и децентрализованной финансовой архитектурой</span>, обеспечивая прогнозирование, управление рисками и интеллектуальную автоматизацию ключевых решений.
+      </p>
+      <div class="columns">
+        <div class="col">
+          <ul>
+            <li>Российское AI-ядро, учитывающее требования к защите данных и ответственному применению AI.</li>
+            <li>Нативная поддержка фиатных операций, корпоративных финансов и DeFi/Web3‑инструментов (стейблкоины, смарт‑контракты, ончейн‑данные).</li>
+            <li>Готовность к интеграции с банковскими API, ERP/CRM, казначейством и аналитическими системами заказчиков.</li>
+          </ul>
+        </div>
+        <div class="col">
+          <ul>
+            <li>Фокус на B2B и B2G сегментах с высокой платёжеспособностью и длительными контрактами.</li>
+            <li>Преимущество за счёт сочетания AI‑аналитики, ончейн/офчейн данных и сценариев автоматизации в реальном времени.</li>
+            <li>Потенциал масштабирования на рынки дружественных стран и партнёрских юрисдикций.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="chip-row">
+        <div class="chip">Финансовый AI</div>
+        <div class="chip">DeFi / Web3</div>
+        <div class="chip">B2B и B2G</div>
+        <div class="chip">Инфраструктура решений</div>
+      </div>
+    </section>
+
+    <!-- СЦЕНАРИИ РАЗВИТИЯ -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-title">Сценарии развития AI Xandor</div>
+        <div class="section-tag">3 горизонта роста</div>
+      </div>
+      <div class="columns">
+        <div class="col">
+          <h3 style="font-size:13px; margin-bottom:4px;">Горизонт 1 — Российский финсектор</h3>
+          <ul>
+            <li>Запуск AI‑ассистента AI Xandor для банков, МФО, брокеров, финтех‑платформ и корпоративного казначейства.</li>
+            <li>Пилотные проекты с финансовыми организациями в рамках программ цифровой трансформации.</li>
+            <li>Сертификация и соответствие отраслевым регуляторным требованиям.</li>
+          </ul>
+        </div>
+        <div class="col">
+          <h3 style="font-size:13px; margin-bottom:4px;">Горизонт 2 — DeFi и Web3</h3>
+          <ul>
+            <li>AI‑агенты AI Xandor для управления DeFi‑портфелями, мониторинга ончейн‑рисков и ликвидности 24/7.</li>
+            <li>Сервисы для криптоплатёжных шлюзов, Web3‑банкинга, DAO и инвестиционных платформ.</li>
+            <li>Выход на глобальный рынок AI‑ассистентов для Web3 с англоязычным продуктовым контуром.</li>
+          </ul>
+        </div>
+        <div class="col">
+          <h3 style="font-size:13px; margin-bottom:4px;">Горизонт 3 — Госфинансы и экспорт</h3>
+          <ul>
+            <li>Участие в госзакупках по направлениям AI в публичном финансовом управлении и фискальном контроле.</li>
+            <li>Использование AI Xandor как инфраструктуры для анализа бюджетных потоков и фискальных рисков.</li>
+            <li>Экспорт решений в страны BRICS и партнёрские юрисдикции с адаптацией к локальной регуляторике.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ПРОДУКТ: КЛЮЧЕВЫЕ МОДУЛИ -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-title">Продукт AI Xandor</div>
+        <div class="section-tag">Функциональные модули</div>
+      </div>
+      <p>
+        AI Xandor — модульная AI‑платформа, построенная вокруг собственного доменного ядра для финансов, рисков и бизнес‑аналитики.
+      </p>
+      <div class="columns">
+        <div class="col">
+          <h3 style="font-size:13px; margin-bottom:4px;">1. Финансовый AI-ассистент</h3>
+          <ul>
+            <li>Персональный и корпоративный финансовый ассистент: планирование, бюджетирование, кэш‑флоу, долговая нагрузка.</li>
+            <li>AI‑консультант для CFO и финансовых директоров: сценарный анализ, стресс‑тесты, моделирование решений.</li>
+            <li>Автоматизированные отчёты и предиктивная аналитика по выручке, маржинальности, ликвидности и рискам.</li>
+          </ul>
+        </div>
+        <div class="col">
+          <h3 style="font-size:13px; margin-bottom:4px;">2. DeFi / Web3 AI</h3>
+          <ul>
+            <li>Мониторинг DeFi‑портфелей, ликвидностных пулов, стейкинга и доходности, с рекомендациями по ребалансировке.</li>
+            <li>Анализ ончейн‑рисков: волатильность, смарт‑контракты, контрагентские риски, аномальные транзакции.</li>
+            <li>AI‑алерты и автоматические сценарии управления позициями и стратегиями.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="col">
+          <h3 style="font-size:13px; margin-bottom:4px;">3. AI‑комплаенс и контроль</h3>
+          <ul>
+            <li>KYC/AML‑аналитика для выявления подозрительных схем и транзакций.</li>
+            <li>Автоматизация подготовки регуляторной отчётности и мониторинга соответствия требованиям.</li>
+            <li>Контроль соблюдения внутренних политик и регламентов в финансовых организациях.</li>
+          </ul>
+        </div>
+        <div class="col">
+          <h3 style="font-size:13px; margin-bottom:4px;">4. AI для бизнес‑процессов</h3>
+          <ul>
+            <li>AI‑консультант по управлению бизнесом: unit‑экономика, оптимизация затрат, сценарии роста.</li>
+            <li>Интеллектуальные сценарии для продаж, клиентского сервиса, антифрода и взыскания задолженности.</li>
+            <li>Интеграция с CRM/ERP для автоматизации рутинных задач и принятия решений в реальном времени.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <p style="font-size:13px;">
+        Архитектура AI Xandor сочетает крупные языковые модели, специализированные алгоритмы и подключение к различным источникам данных, что обеспечивает масштабируемость и устойчивое качество рекомендаций.
+      </p>
+    </section>
+
+    <!-- ЦЕННОСТЬ И БОЛИ -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-title">Ценность AI Xandor</div>
+        <div class="section-tag">Решаемые задачи</div>
+      </div>
+      <p>
+        AI Xandor ориентирован на клиентов с высокой ценностью жизненного цикла: финансовые организации, средний и крупный бизнес, финтех/крипто‑компании и госструктуры.
+      </p>
+
+      <div class="target-grid">
+        <div class="tag-card">
+          <div class="tag-title">Банки, МФО, финтех</div>
+          <div class="tag-desc">
+            Снижение стоимости риска и комплаенса, повышение качества кредитных решений и управление портфелем с помощью AI‑аналитики.
+          </div>
+        </div>
+        <div class="tag-card">
+          <div class="tag-title">Средний и крупный бизнес</div>
+          <div class="tag-desc">
+            Контроль финансовых потоков, сценарное планирование и сокращение ошибок ручного анализа за счёт стандартизированной AI‑аналитики.
+          </div>
+        </div>
+        <div class="tag-card">
+          <div class="tag-title">DeFi / Web3 проекты</div>
+          <div class="tag-desc">
+            AI‑надстройка над DeFi‑инфраструктурой, управление риском, обнаружение аномалий и повышение доходности стратегий.
+          </div>
+        </div>
+        <div class="tag-card">
+          <div class="tag-title">Госструктуры и ведомства</div>
+          <div class="tag-desc">
+            Аналитика бюджетных потоков, управление фискальными рисками и внедрение AI в публичное финансовое управление.
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <ul>
+        <li>Сокращение времени принятия финансовых решений с дней и недель до минут.</li>
+        <li>Снижение числа ошибок и субъективности за счёт единых AI‑подходов к аналитике.</li>
+        <li>Сокращение операционных затрат на аналитику, отчётность и комплаенс.</li>
+        <li>Рост доходности стратегий и снижение рисков в DeFi и традиционных финансах за счёт постоянного AI‑мониторинга.</li>
+      </ul>
+    </section>
+
+    <!-- МОНЕТИЗАЦИЯ -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-title">Монетизация AI Xandor</div>
+        <div class="section-tag">Подписочная модель</div>
+      </div>
+      <p>
+        Основная модель монетизации AI Xandor — подписка (SaaS) с дополнительной выручкой от кастомизаций, интеграций и консалтинга для крупных клиентов.
+      </p>
+
+      <div class="pricing-grid">
+        <div class="tariff">
+          <div class="tariff-header">
+            <div class="tariff-name">Тариф «Start»</div>
+            <div class="tariff-price">$25 / мес</div>
+          </div>
+          <div class="tariff-note">Малый бизнес, частные профучастники, крипто‑инвесторы.</div>
+          <ul>
+            <li>Базовый доступ к AI Xandor для финансов и DeFi.</li>
+            <li>Ограниченный объём запросов и подключаемых источников.</li>
+            <li>Интеграция с 1–2 внешними сервисами.</li>
+          </ul>
+        </div>
+
+        <div class="tariff">
+          <div class="tariff-header">
+            <div class="tariff-name">Тариф «Pro»</div>
+            <div class="tariff-price">$50 / мес</div>
+          </div>
+          <div class="tariff-note">Средний бизнес, финтех‑компании, Web3‑проекты.</div>
+          <ul>
+            <li>Расширенный набор модулей (финансы, DeFi, комплаенс, бизнес‑аналитика).</li>
+            <li>Повышенные лимиты, доступ к API и командной работе.</li>
+            <li>Базовая кастомизация под процессы клиента.</li>
+          </ul>
+        </div>
+
+        <div class="tariff">
+          <div class="tariff-header">
+            <div class="tariff-name">Тариф «Enterprise»</div>
+            <div class="tariff-price">$75+ / мес</div>
+          </div>
+          <div class="tariff-note">Банки, крупный бизнес, госструктуры.</div>
+          <ul>
+            <li>Полный доступ ко всем модулям и AI‑агентам AI Xandor.</li>
+            <li>On‑premise / частное облако, кастомная интеграция и доработка.</li>
+            <li>SLA, аудит, сопровождение и развитие решений под заказчика.</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="note">
+        Для госзаказов и крупных контрактов возможны отдельные схемы лицензирования, фиксированные абонентские платежи и проектное финансирование под конкретные внедрения.
+      </p>
+    </section>
+
+    <!-- ГОСЗАКАЗЫ И ГРАНТЫ -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-title">Госзаказы и гранты</div>
+        <div class="section-tag">B2G стратегия</div>
+      </div>
+      <p>
+        AI Xandor изначально спроектирован с учётом участия в государственных программах по цифровой трансформации, развитию искусственного интеллекта и укреплению публичного финансового управления.
+      </p>
+      <ul>
+        <li>Фокус на AI‑решениях для бюджетного планирования, фискального контроля и антикоррупционного мониторинга.</li>
+        <li>Готовность к локальному развёртыванию, повышенным требованиям к безопасности и сертификации.</li>
+        <li>Участие в грантовых программах по направлениям AI для финансового сектора и государственного управления.</li>
+        <li>Использование лучших практик внедрения AI в публичное финансовое управление.</li>
+      </ul>
+    </section>
+
+    <!-- ПАРАМЕТРЫ ДЛЯ ИНВЕСТОРОВ -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-title">Инвестиционный кейс AI Xandor</div>
+        <div class="section-tag">Параметры для инвесторов</div>
+      </div>
+      <p>
+        AI Xandor опирается на растущий глобальный рынок AI, расширение применения AI в финансовых услугах и формирование нового класса решений на стыке AI и Web3.
+      </p>
+      <ul>
+        <li>Растущий рынок AI и интеллектуальных ассистентов с прогнозом многократного увеличения объёмов.</li>
+        <li>Подписочная модель с предсказуемым MRR/ARR и потенциалом роста LTV за счёт Enterprise‑сегмента.</li>
+        <li>Диверсификация выручки: B2B, B2G, Web3‑клиенты, консалтинг и кастомные внедрения.</li>
+        <li>Потенциал экспорта решений в дружественные юрисдикции и страны BRICS.</li>
+      </ul>
+      <p class="note">
+        Детализированные финансовые модели (MRR, LTV, CAC, сценарии роста) формируются в рамках отдельного инвестиционного меморандума.
+      </p>
+    </section>
+
+    <!-- КОНТАКТЫ И CTA -->
+    <div class="footer">
+      <p><strong>Следующие шаги по AI Xandor:</strong></p>
+      <p>
+        • Обсуждение пилотных проектов с ключевыми финансовыми и государственными заказчиками.<br />
+        • Формирование дорожной карты R&amp;D, сертификации и масштабирования платформы.<br />
+        • Определение формата участия инвесторов: долевое участие, конвертируемый займ, стратегическое партнёрство.
+      </p>
+      <p style="margin-top:10px;">
+        Контакты команды AI Xandor и расширенная документация доступны по запросу.
+      </p>
+    </div>
+  </div>
+</body>
+</html>
